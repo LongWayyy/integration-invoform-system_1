@@ -92,14 +92,18 @@ UI_01: Экран с картой и списком моек
 2. ...
 3. ...
 4. Возвращает список моек
+ 
+
+ ![bLLTIznG47qFv3zSVEb3yG-8B9PMeVWYbDB79TIq3Uo79B4WRc4_eBOeLLgXHTHgXJx7TTFDRlRZBypzHprpawpP98ljGtPpvyxSEUVCtCcQungskrkjwDeZGPSqbKtogOSdn3EcW7mXMx8ZFsCnmLiRve6kcJNNSlV44ft1CM1NsLuIXYE](https://github.com/user-attachments/assets/aa33f4f8-b3cc-4419-b6c5-d907f3de8cd6)
 
 
-![dLHTQzH057tFhnZwqWVf7_2feXLy5l4n11iriBifIIeKL-XsmI8jh6X1aRPQ1P_Jkj5qivlz2sV-aUTkCjsTJN71XmcP-t7kkMVcpcQSU56ossuvwmhdcEfzP1Xo5LmJvCYKxkc-ViTDoRy3cgyTlvC4oPvQmnV6vHAf3zQK5wlxkt4Ijlr8lNQKkcDsxgC7wguAEeaOyHbZFU0-JgAWyq](https://github.com/user-attachments/assets/766eaa0b-d38d-46f1-91dd-c9ae15b0e2e3)
 ```
+
+
 @startuml
 ' Определение сущностей
 entity "Клиент" as Customer {
-  +Customer_ID : int
+  +Customer_ID : int <<PK>>
   +Имя : string
   +Контактный_номер : string
   +Адрес : string
@@ -107,43 +111,44 @@ entity "Клиент" as Customer {
 }
 
 entity "Автомобиль" as Car {
-  +Car_ID : int
+  +Car_ID : int <<PK>>
   +Марка : string
   +Модель : string
   +Год_выпуска : int
   +Номерной_знак : string
   +Тип : string
-  +Customer_ID : int
+  +Customer_ID : int <<FK>>
+}
+
+entity "Мойка" as Wash {
+  +Wash_ID : int <<PK>>
+  +Тип : string
+  +Статус : string
+  +Время_начала : date
+  +Время_окончания : date
+  +Работник_ID : int <<FK>>
+  +Услуга_ID : int <<FK>>
+  +Регестрация_для_записи_ID : int <<FK>>
 }
 
 entity "Запись на мойку" as SingUpForACarWash {
-  +SingUpForACarWash_ID : int
+  +SingUpForACarWash_ID : int <<PK>>
   +Дата_записи : date
   +Статус : string
-  +Customer_ID : int
-  +Car_ID : int
+  +Customer_ID : int <<FK>>
+  +Car_ID : int <<FK>>
 }
 
 entity "Услуга" as Service {
-  +Service_ID : int
+  +Service_ID : int <<PK>>
   +Название : string
   +Описание : string
   +Цена : float
 }
 
-entity "Мойка" as Wash {
-  +Wash_ID : int
-  +Тип : string
-  +Статус : string
-  +Время_начала : date
-  +Время_окончания : date
-  +Работник_ID : int
-  +Услуга_ID : int
-  + Регестрация_для_записи_ID : int
-}
 
 entity "Работник" as Employee {
-  +Employee_ID : int
+  +Employee_ID : int <<PK>>
   +Имя : string
   +Должность : string
   +Контактный_номер : string
@@ -151,14 +156,18 @@ entity "Работник" as Employee {
 }
 
 ' Связи между сущностями
-Customer ||--o| Car 
-Car ||--o| SingUpForACarWash 
-Customer ||--o| SingUpForACarWash
-Service ||--o| Wash 
-Employee||--o| Wash
-SingUpForACarWash ||--|| Wash 
+Customer ||--o{ Car : владеет >
+Car ||--o{ SingUpForACarWash : записан >
+Customer ||--o{ SingUpForACarWash : записал >
+Service ||--o{ Wash : включает >
+Employee||--o{ Wash : выполняет >
+SingUpForACarWash ||--|| Wash : относится >
+
+' Улучшение отображения связей
+
 @enduml
 ```
+
 ### C4 model
 
 #### C1 - System Context
@@ -169,52 +178,6 @@ SingUpForACarWash ||--|| Wash
 
 
 ### Sequense Diagram
-![SequenceDiagram](https://github.com/user-attachments/assets/529e9863-ddc8-4f33-9b70-7d11e1a20e3f)
 
-```
-@startuml
-' Участники
-actor "Клиент" as Client
-participant "CarWashSystem" as System
-participant "Service" as Service
-participant "Order" as Order
-database "DataBase" as DB
-participant "PaySystem" as PaySystem
-participant "Платёжная штука" as Pay
 
-Client -> System: Запрос на выбор автомойки
-System -> DB: Запрос на выбор автомойки
-DB --> System: Список автомоек
-System -> System: Сортировка списка автомоек
-System -> Client: Список автомоек
 
-Client -> Service: Запрос на выбор услуги
-Service -> Service: Сортировка списка услуг
-Service --> Client: Список услуг
-
-Client -> Order: Запрос на выбор даты и времени
-Order --> Client: Подтверждение даты и времени
-
-Client -> Order: Запрос на подтверждение записи
-Order -> DB: Запрос на добавление записи в БД
-DB --> Order: Подтверждение добавления
-Order --> Client: Запись подтверждена
-
-Client -> PaySystem: Запрос на оплату заказа
-PaySystem -> DB: Запрос на получение списка заказов
-DB --> PaySystem: Список заказов
-PaySystem --> Client: Способ оплаты
-Client -> PaySystem: Выбор способа оплаты
-PaySystem -> Pay: Запрос на оплату заказа
-Pay --> Client: Подтверждение оплаты
-Client -> Pay: Оплата заказа
-
-Pay --> PaySystem: Оплата прошла
-PaySystem -> Order: Изменение статуса заказа
-Order -> DB: Запрос на изменение статуса заказа
-DB --> Order: Изменение статуса заказа
-Order --> PaySystem: Статус заказа изменён
-PaySystem --> Client: Заказ оплачен
-
-@enduml
-```
