@@ -274,5 +274,55 @@ SingUpForACarWash ||--|| Wash : относится >
 
 ### Sequense Diagram
 
+![dLP1Qjj05DqBT8SXcwnoWIvASBrle2TGRIqCYHjajP2T7LDgS26a1D95Q0YzWErOgQh4yXN-tAZlprZIpDIoaYm4aVJV---z-T_AuI0EelZpoR7lxGlwBR_HJ8xaEQqefOnItmiwyQT8xD4L9NYOq0Ejv9J-qWqbSa8vPNiY68Xtnxsm7_lUASXwdTvfq8-1kQDKaINqH3CWSk10gX0](https://github.com/user-attachments/assets/9594b33d-e623-4a3e-be04-aa736b934a31)
 
+
+```
+@startuml
+' Участники
+actor "ДенежныйМешок" as Client
+participant "СистемаМойки" as System
+participant "Сервис" as Service
+participant "Заказ" as Order
+database "ДазаБанных" as DB
+participant "PaySystem" as PaySystem
+participant "Платёжная штука" as Pay
+
+Client -> System: Запрос на выбор автомойки
+System -> DB: Запрос на выбор автомойки
+DB --> System: Список автомоек
+System -> System: Сортировка списка автомоек
+System -> Client: Список автомоек
+
+Client -> Service: Запрос на выбор услуги
+Service -> Service: Сортировка списка услуг
+Service --> Client: Список услуг
+
+Client -> Order: Запрос на выбор даты и времени
+Order --> Client: Подтверждение даты и времени
+
+Client -> Order: Запрос на подтверждение записи
+Order -> DB: Запрос на добавление записи в БД
+DB --> Order: Подтверждение добавления
+Order --> Client: Запись подтверждена
+
+Client -> PaySystem: Запрос на оплату заказа
+PaySystem -> DB: Запрос на получение списка заказов
+DB --> PaySystem: Список заказов
+PaySystem --> Client: Способ оплаты
+Client -> PaySystem: Выбор способа оплаты
+PaySystem -> Pay: Запрос на оплату заказа
+Pay --> Client: Подтверждение оплаты
+Client -> Pay: Оплата заказа
+
+Pay --> PaySystem: Оплата прошла
+PaySystem -> Order: Изменение статуса заказа
+Order -> DB: Запрос на изменение статуса заказа
+DB --> Order: Изменение статуса заказа
+Order --> PaySystem: Статус заказа изменён
+PaySystem --> Client: Заказ оплачен
+
+@enduml
+@enduml
+```
 
