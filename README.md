@@ -257,19 +257,19 @@ SingUpForACarWash ||--|| Wash : относится >
 
 ### Sequense Diagram
 
-![dLP1Qjj05DqBT8SXcwnoWIvASBrle2TGRIqCYHjajP2T7LDgS26a1D95Q0YzWErOgQh4yXN-tAZlprZIpDIoaYm4aVJV---z-T_AuI0EelZpoR7lxGlwBR_HJ8xaEQqefOnItmiwyQT8xD4L9NYOq0Ejv9J-qWqbSa8vPNiY68Xtnxsm7_lUASXwdTvfq8-1kQDKaINqH3CWSk10gX0](https://github.com/user-attachments/assets/9594b33d-e623-4a3e-be04-aa736b934a31)
+![fLL1RjDG5Dpx55_TiCe5MA2gT0yI9p295v7QK3a6gRka4IgIaL1GfR10eC85N5E3SHhd2k_TYF7xMD_Fn7KZ5bdOVsRUpFlZzd0Q-M7q-lJ4UsJeErzImdE-e0tbL53k-SFeLMWEwDk0bfJWTN5W_AbvUZ8E9f5t1kfuE3xp9n4mr](https://github.com/user-attachments/assets/18cf7c74-c616-45d4-b760-de0ed464605e)
 
 
 ```
 @startuml
 ' Участники
-actor "ДенежныйМешок" as Client
+actor "Т-Банк" as Client
 participant "СистемаМойки" as System
 participant "Сервис" as Service
 participant "Заказ" as Order
 database "ДазаБанных" as DB
 participant "PaySystem" as PaySystem
-participant "Платёжная штука" as Pay
+participant "Т-банк" as Pay
 
 Client -> System: Запрос на выбор автомойки
 System -> DB: Запрос на выбор автомойки
@@ -304,7 +304,6 @@ Order -> DB: Запрос на изменение статуса заказа
 DB --> Order: Изменение статуса заказа
 Order --> PaySystem: Статус заказа изменён
 PaySystem --> Client: Заказ оплачен
-
 @enduml
 ```
 
