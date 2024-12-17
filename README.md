@@ -168,15 +168,8 @@ UC7 --> gaf
 Система отменяет запись на мойку в базе данных.
 Система отображает сообщение об успешной отмене.
 Сценарий завершен.
-### нефункциональные требования
+### Нефункциональные требования
                             
- необходимые функции:
- AL_01: алгоритм по адресу и геолокации 
-   1 формирует запрос к БД
-   2...
-   3...
-   4 формируем список моек
- UI_1 : система отображает экран с картой и списком мое
  
 
  ![bLLTIznG47qFv3zSVEb3yG-8B9PMeVWYbDB79TIq3Uo79B4WRc4_eBOeLLgXHTHgXJx7TTFDRlRZBypzHprpawpP98ljGtPpvyxSEUVCtCcQungskrkjwDeZGPSqbKtogOSdn3EcW7mXMx8ZFsCnmLiRve6kcJNNSlV44ft1CM1NsLuIXYE](https://github.com/user-attachments/assets/aa33f4f8-b3cc-4419-b6c5-d907f3de8cd6)
