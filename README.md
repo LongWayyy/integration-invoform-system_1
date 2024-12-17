@@ -241,7 +241,7 @@ Service ||--o{ Wash : включает >
 Employee||--o{ Wash : выполняет >
 SingUpForACarWash ||--|| Wash : относится >
 
-' Улучшение отображения связей
+
 
 @enduml
 ```
