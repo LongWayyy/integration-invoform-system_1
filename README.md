@@ -46,11 +46,175 @@ client --> UC7
 client --> UC8
 UC7 --> gaf
 @enduml
+```
 </code>
- #User story
-<p>
- Как пользователь, я хочу иметь возможность легко синхронизировать данные моего приложения на нескольких устройствах, чтобы я мог получать доступ к своей информации из любой точки мира.
 
-Как социофоб, я хочу иметь возможность онлайн записи, чтобы быть уверенным, что у меня будет минимум социальных контактов
+### Сценарии использования:  
+- UC_01: Найти и выбрать автомойку
+  - Участники:
+    - Пользователь приложения
+  - Предусловия:
+    - Пользователь зарегестрирован и авторизован
+  - Условие для запуска сценария:
+    - Пользователь нажимает кнопку "Найти мойку" 
+  - Признак успешности:
+    - Пользователь выбрал автомойку 
 
-</p>
+#### Базовый сценарий
+
+1. Система проверяет, что клиент передал свою геолокацию
+   ЕСЛИ: Геолокации нет,
+   ТО: Система переходит в "Базовый сценарий 3"
+3. Система ищет ближайшие к позиции клиента мойки | АЛ_01: Алгоритм поиска моек по адресу или геолокации
+4. Система формирует список моек
+5. Система отображает экран с картой и списком моек | UI_01
+6. Система ожидает выбора мойки клиентом
+7. Система переходит к экрану выбора услуг
+8. Сценарий завершен
+
+UI_01: Экран с картой и списком моек
+
+#### Базовый сценарий 2
+
+1. Система выводит сообщение клиента с просьбой разрешить передачу геолокации
+2. ЕСЛИ: клиент разрешил передачу геолокации   
+   ТО: Система переходит в "Базовый сценарий шаг 2"   
+   ИНАЧЕ: Перейти в "Базовый сценарий 3"
+
+#### Базовый сценарий 3
+
+1. Система отображает поле для ввода адреса
+2. Система ожидает от клиента ввод адреса
+3. Система переходит в "Базовый сценарий шаг 2" 
+
+АЛ_01: Алгоритм поиска моек по адресу или геолокации
+1. Система формирует запрос к БД
+2. ...
+3. ...
+4. Возвращает список моек
+
+
+![dLHTQzH057tFhnZwqWVf7_2feXLy5l4n11iriBifIIeKL-XsmI8jh6X1aRPQ1P_Jkj5qivlz2sV-aUTkCjsTJN71XmcP-t7kkMVcpcQSU56ossuvwmhdcEfzP1Xo5LmJvCYKxkc-ViTDoRy3cgyTlvC4oPvQmnV6vHAf3zQK5wlxkt4Ijlr8lNQKkcDsxgC7wguAEeaOyHbZFU0-JgAWyq](https://github.com/user-attachments/assets/766eaa0b-d38d-46f1-91dd-c9ae15b0e2e3)
+```
+@startuml
+' Определение сущностей
+entity "Клиент" as Customer {
+  +Customer_ID : int
+  +Имя : string
+  +Контактный_номер : string
+  +Адрес : string
+  +Email : string
+}
+
+entity "Автомобиль" as Car {
+  +Car_ID : int
+  +Марка : string
+  +Модель : string
+  +Год_выпуска : int
+  +Номерной_знак : string
+  +Тип : string
+  +Customer_ID : int
+}
+
+entity "Запись на мойку" as SingUpForACarWash {
+  +SingUpForACarWash_ID : int
+  +Дата_записи : date
+  +Статус : string
+  +Customer_ID : int
+  +Car_ID : int
+}
+
+entity "Услуга" as Service {
+  +Service_ID : int
+  +Название : string
+  +Описание : string
+  +Цена : float
+}
+
+entity "Мойка" as Wash {
+  +Wash_ID : int
+  +Тип : string
+  +Статус : string
+  +Время_начала : date
+  +Время_окончания : date
+  +Работник_ID : int
+  +Услуга_ID : int
+  + Регестрация_для_записи_ID : int
+}
+
+entity "Работник" as Employee {
+  +Employee_ID : int
+  +Имя : string
+  +Должность : string
+  +Контактный_номер : string
+  +Почта : string
+}
+
+' Связи между сущностями
+Customer ||--o| Car 
+Car ||--o| SingUpForACarWash 
+Customer ||--o| SingUpForACarWash
+Service ||--o| Wash 
+Employee||--o| Wash
+SingUpForACarWash ||--|| Wash 
+@enduml
+```
+### C4 model
+
+#### C1 - System Context
+<img width="800" alt="С1" src="https://github.com/user-attachments/assets/7aeb8f0c-68b4-43ba-b37b-af361101d766" />
+
+#### C2 - Containers
+<img width="800" alt="С2" src="https://github.com/user-attachments/assets/8b41dc2d-a61a-4a7c-83d1-37158d99e82d" />
+
+
+### Sequense Diagram
+![SequenceDiagram](https://github.com/user-attachments/assets/529e9863-ddc8-4f33-9b70-7d11e1a20e3f)
+
+```
+@startuml
+' Участники
+actor "Клиент" as Client
+participant "CarWashSystem" as System
+participant "Service" as Service
+participant "Order" as Order
+database "DataBase" as DB
+participant "PaySystem" as PaySystem
+participant "Платёжная штука" as Pay
+
+Client -> System: Запрос на выбор автомойки
+System -> DB: Запрос на выбор автомойки
+DB --> System: Список автомоек
+System -> System: Сортировка списка автомоек
+System -> Client: Список автомоек
+
+Client -> Service: Запрос на выбор услуги
+Service -> Service: Сортировка списка услуг
+Service --> Client: Список услуг
+
+Client -> Order: Запрос на выбор даты и времени
+Order --> Client: Подтверждение даты и времени
+
+Client -> Order: Запрос на подтверждение записи
+Order -> DB: Запрос на добавление записи в БД
+DB --> Order: Подтверждение добавления
+Order --> Client: Запись подтверждена
+
+Client -> PaySystem: Запрос на оплату заказа
+PaySystem -> DB: Запрос на получение списка заказов
+DB --> PaySystem: Список заказов
+PaySystem --> Client: Способ оплаты
+Client -> PaySystem: Выбор способа оплаты
+PaySystem -> Pay: Запрос на оплату заказа
+Pay --> Client: Подтверждение оплаты
+Client -> Pay: Оплата заказа
+
+Pay --> PaySystem: Оплата прошла
+PaySystem -> Order: Изменение статуса заказа
+Order -> DB: Запрос на изменение статуса заказа
+DB --> Order: Изменение статуса заказа
+Order --> PaySystem: Статус заказа изменён
+PaySystem --> Client: Заказ оплачен
+
+@enduml
+```
