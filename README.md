@@ -22,34 +22,31 @@
 
 ### Use Case
 
-![Картинка](https://github.com/user-attachments/assets/4b9b233e-e146-4274-b746-9fae0a6888c2)
-
+![image](https://github.com/user-attachments/assets/67f50dd5-a25c-4a93-aabc-9d233734b796)
 ```
 <code>
 @startuml
+actor "Клиент" as fc
 left to right direction
-actor "Денежный мешок" as client
-actor "Т-банк" as gaf
-rectangle ВсеМойки.ру  {
-usecase "Управлять своим профилем " as UC1
-usecase "Управлять своим авто " as UC2
-usecase "Выбирать город" as UC3
-usecase "Выбирать мойку" as UC4
-usecase "дата время" as UC5
-usecase "способ оплаты" as UC6
-usecase "оплачивать" as UC7
-usecase "отменять" as UC8
+rectangle "ВсеМойки.ру"  {
+  rectangle "Платёжная штука" as plata
+  usecase "UC1: Записаться на мойку" as UC1
+	usecase "UC1.1: Найти и выбрать автомойку" as UC2
+	usecase "UC1.2: Выбрать дату и время" as UC3
+	usecase "UC1.3: Выбрать услугу" as UC4
+	usecase "UC1.4: Оплатить" as UC6
+	usecase "UC2: Отменить услугу" as UC7
 }
-client --> UC1
-client --> UC2
-client --> UC3
-client --> UC4
-client --> UC5
-client --> UC6
-client --> UC7
-client --> UC8
-UC7 --> gaf
+fc --> UC1
+fc --> UC7
+UC7 <. UC1:(extend)
+UC1 ..> UC2:(include)
+UC1 ..> UC3:(include)
+UC1 ..> UC4:(include)
+UC1 ..> UC6:(include)
+UC6 -->plata
 @enduml
+
 ```
 </code>
 
