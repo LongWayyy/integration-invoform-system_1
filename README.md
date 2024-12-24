@@ -192,7 +192,9 @@ UC6 -->plata
 ### C4 model
 
 #### C1 - System Context
-<img width="800" alt="С1" src="https://github.com/user-attachments/assets/7aeb8f0c-68b4-43ba-b37b-af361101d766" />
+![image](https://github.com/user-attachments/assets/547b94e1-6d4a-48cf-906f-17a3a8cbb8e3)
+
+
 
 #### C2 - Containers
 <img width="800" alt="С2" src="https://github.com/user-attachments/assets/8b41dc2d-a61a-4a7c-83d1-37158d99e82d" />
