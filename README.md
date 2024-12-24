@@ -276,7 +276,7 @@ end
 	 
   ```
 
- openapi: 3.0.0
+openapi: 3.0.0
 info:
   title: "Сервис записи на автомойку"
   version: "0.1"
@@ -711,7 +711,7 @@ paths:
     get:
       summary: "Запись по ID"
       tags:
-        - registrations
+        - Регестрация
       operationId: getRegistrationById
       parameters:
         - name: registration_id
@@ -735,15 +735,15 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
     delete:
-      summary: Eдалениe записи по ID
+      summary: Удалениe записи по ID
       tags:
-        - registrations
+        - Регестрация
       operationId: deleteRegistration
       parameters:
           - name: registration_id
             in: path
             required: True
-            description: "ИID  записи"
+            description: "ID  записи"
             schema:
               type: integer
             example: 1
@@ -761,7 +761,7 @@ paths:
     patch:
       summary: "Изменение данных записи по ID"
       tags:
-        - registrations
+        - Регестрация
       operationId: updateRegistrationById
       parameters:
         - name: registration_id
