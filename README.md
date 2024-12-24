@@ -151,79 +151,12 @@ UC6 -->plata
                             
  
 
- ![bLLTIznG47qFv3zSVEb3yG-8B9PMeVWYbDB79TIq3Uo79B4WRc4_eBOeLLgXHTHgXJx7TTFDRlRZBypzHprpawpP98ljGtPpvyxSEUVCtCcQungskrkjwDeZGPSqbKtogOSdn3EcW7mXMx8ZFsCnmLiRve6kcJNNSlV44ft1CM1NsLuIXYE](https://github.com/user-attachments/assets/aa33f4f8-b3cc-4419-b6c5-d907f3de8cd6)
 
-
-```
-
-
-@startuml
-' Определение сущностей
-entity "Клиент" as Customer {
-  +Customer_ID : int <<PK>>
-  +Имя : string
-  +Контактный_номер : string
-  +Адрес : string
-  +Email : string
-}
-
-entity "Автомобиль" as Car {
-  +Car_ID : int <<PK>>
-  +Марка : string
-  +Модель : string
-  +Год_выпуска : int
-  +Номерной_знак : string
-  +Тип : string
-  +Customer_ID : int <<FK>>
-}
-
-entity "Мойка" as Wash {
-  +Wash_ID : int <<PK>>
-  +Тип : string
-  +Статус : string
-  +Время_начала : date
-  +Время_окончания : date
-  +Работник_ID : int <<FK>>
-  +Услуга_ID : int <<FK>>
-  +Регестрация_для_записи_ID : int <<FK>>
-}
-
-entity "Запись на мойку" as SingUpForACarWash {
-  +SingUpForACarWash_ID : int <<PK>>
-  +Дата_записи : date
-  +Статус : string
-  +Customer_ID : int <<FK>>
-  +Car_ID : int <<FK>>
-}
-
-entity "Услуга" as Service {
-  +Service_ID : int <<PK>>
-  +Название : string
-  +Описание : string
-  +Цена : float
-}
-
-
-entity "Работник" as Employee {
-  +Employee_ID : int <<PK>>
-  +Имя : string
-  +Должность : string
-  +Контактный_номер : string
-  +Почта : string
-}
-
-' Связи между сущностями
-Customer ||--o{ Car : владеет >
-Car ||--o{ SingUpForACarWash : записан >
-Customer ||--o{ SingUpForACarWash : записал >
-Service ||--o{ Wash : включает >
-Employee||--o{ Wash : выполняет >
-SingUpForACarWash ||--|| Wash : относится >
+![image](https://github.com/user-attachments/assets/9e4f01f6-948d-4d8b-9ac6-48c7f0ec4019)
 
 
 
-@enduml
-```
+
 
 ### C4 model
 
