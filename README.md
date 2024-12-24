@@ -278,7 +278,7 @@ end
 
  
  <details>
-	 <summary> Код API (PlantTextUML)</summary>
+	 <summary> Код API (https://editor.swagger.io/)</summary>
 	 
 	 
   ```
