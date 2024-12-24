@@ -197,7 +197,8 @@ UC6 -->plata
 
 
 #### C2 - Containers
-<img width="800" alt="С2" src="https://github.com/user-attachments/assets/8b41dc2d-a61a-4a7c-83d1-37158d99e82d" />
+![image](https://github.com/user-attachments/assets/2f651453-550c-463d-80b9-8a329a53a404)
+
 
 
 ### Sequense Diagram
