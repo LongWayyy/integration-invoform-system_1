@@ -270,6 +270,13 @@ end
 </details>
 
  ### API  
+ 
+![image](https://github.com/user-attachments/assets/4d8dece9-fdd6-4049-96d1-84e57ebf0046)
+
+![image](https://github.com/user-attachments/assets/15542d96-388a-4d57-850d-da2a243d62ab)
+
+
+ 
  <details>
 	 <summary> Код API (PlantTextUML)</summary>
 	 
