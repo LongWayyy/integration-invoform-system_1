@@ -916,6 +916,6 @@ components:
       items:
         $ref: "#/components/schemas/Registration"   
 	
-          ```
-	  </details>
+  ```
+ </details>
 
