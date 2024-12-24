@@ -206,7 +206,8 @@ UC6 -->plata
 
 ![image](https://github.com/user-attachments/assets/03ac302d-9318-4bf9-ad65-fdc8f6d58cc8)
 
-
+<details>
+  <summary> Код Sequense Diagram (PlantTextUML)</summary>
 
 ```
 @startuml
@@ -266,4 +267,5 @@ end
 @enduml
 
 ```
+</details>
 
