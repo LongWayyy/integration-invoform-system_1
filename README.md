@@ -203,53 +203,66 @@ UC6 -->plata
 
 ### Sequense Diagram
 
-![fLL1RjDG5Dpx55_TiCe5MA2gT0yI9p295v7QK3a6gRka4IgIaL1GfR10eC85N5E3SHhd2k_TYF7xMD_Fn7KZ5bdOVsRUpFlZzd0Q-M7q-lJ4UsJeErzImdE-e0tbL53k-SFeLMWEwDk0bfJWTN5W_AbvUZ8E9f5t1kfuE3xp9n4mr](https://github.com/user-attachments/assets/18cf7c74-c616-45d4-b760-de0ed464605e)
+![image](https://github.com/user-attachments/assets/03ac302d-9318-4bf9-ad65-fdc8f6d58cc8)
+
 
 
 ```
 @startuml
 ' Участники
-actor "Т-Банк" as Client
-participant "СистемаМойки" as System
-participant "Сервис" as Service
-participant "Заказ" as Order
-database "ДазаБанных" as DB
-participant "PaySystem" as PaySystem
-participant "Т-банк" as Pay
+actor "Клиент" as Client
+participant "Веб-приложуха/Мобилка" as CarWashSystem
+participant "API" as ServiceOrderAPI
+database "БазаДанных" as Database
+participant "ПлатежнаяСистема" as PaymentSystem
+participant "Техподдержка" as Support
 
-Client -> System: Запрос на выбор автомойки
-System -> DB: Запрос на выбор автомойки
-DB --> System: Список автомоек
-System -> System: Сортировка списка автомоек
-System -> Client: Список автомоек
+' Запрос на выбор автомойки
+Client -> CarWashSystem: Запрос на выбор автомойки
+CarWashSystem -> Database: Запрос на выбор автомойки
+Database --> CarWashSystem: Список автомоек
+CarWashSystem -> CarWashSystem: Сортировка списка автомоек
+CarWashSystem -> Client: Список автомоек
 
-Client -> Service: Запрос на выбор услуги
-Service -> Service: Сортировка списка услуг
-Service --> Client: Список услуг
+' Запрос на выбор услуги
+Client -> ServiceOrderAPI: Запрос на выбор услуги
+ServiceOrderAPI -> Database: Запрос на услуги
+Database --> ServiceOrderAPI: Список услуг
+ServiceOrderAPI --> Client: Список услуг
 
-Client -> Order: Запрос на выбор даты и времени
-Order --> Client: Подтверждение даты и времени
+' Запрос на выбор даты и времени
+Client -> ServiceOrderAPI: Запрос на выбор даты и времени
+ServiceOrderAPI --> Client: Подтверждение даты и времени
 
-Client -> Order: Запрос на подтверждение записи
-Order -> DB: Запрос на добавление записи в БД
-DB --> Order: Подтверждение добавления
-Order --> Client: Запись подтверждена
+' Подтверждение записи
+Client -> ServiceOrderAPI: Запрос на подтверждение записи
+ServiceOrderAPI -> Database: Запрос на добавление записи в БД
+Database --> ServiceOrderAPI: Подтверждение добавления
+ServiceOrderAPI --> Client: Запись подтверждена
 
-Client -> PaySystem: Запрос на оплату заказа
-PaySystem -> DB: Запрос на получение списка заказов
-DB --> PaySystem: Список заказов
-PaySystem --> Client: Способ оплаты
-Client -> PaySystem: Выбор способа оплаты
-PaySystem -> Pay: Запрос на оплату заказа
-Pay --> Client: Подтверждение оплаты
-Client -> Pay: Оплата заказа
+' Запрос на оплату заказа
+Client -> PaymentSystem: Запрос на оплату заказа
+PaymentSystem -> Database: Запрос на получение информации о заказе
+Database --> PaymentSystem: Информация о заказе
+PaymentSystem --> Client: Способ оплаты
+Client -> PaymentSystem: Выбор способа оплаты
 
-Pay --> PaySystem: Оплата прошла
-PaySystem -> Order: Изменение статуса заказа
-Order -> DB: Запрос на изменение статуса заказа
-DB --> Order: Изменение статуса заказа
-Order --> PaySystem: Статус заказа изменён
-PaySystem --> Client: Заказ оплачен
+' Обработка оплаты
+PaymentSystem -> PaymentSystem: Запрос на оплату заказа
+alt Успешная оплата
+    PaymentSystem --> Client: Подтверждение оплаты
+    PaymentSystem -> ServiceOrderAPI: Обновление статуса заказа
+    ServiceOrderAPI -> Database: Запрос на изменение статуса заказа
+    Database --> ServiceOrderAPI: Изменение статуса заказа
+    ServiceOrderAPI --> PaymentSystem: Статус заказа изменён
+    PaymentSystem --> Client: Заказ оплачен
+else Ошибка оплаты
+    PaymentSystem --> Client: Ошибка оплаты
+    Client -> Support: Обращение в техподдержку
+    Support -> Client: Поддержка клиента
+end
+
 @enduml
+
 ```
 
