@@ -24,9 +24,10 @@
 
 ![image](https://github.com/user-attachments/assets/0ef1878f-b764-4153-97c0-9de30895115d)
 
-
+<details>
+  <summary> Код для Use Cases (PlantTextUML)</summary>
+	
 ```
-<code>
 @startuml
 actor "Клиент" as fc
 left to right direction
@@ -48,9 +49,9 @@ UC1 ..> UC4:(include)
 UC1 ..> UC6:(include)
 UC6 -->plata
 @enduml
-
 ```
-</code>
+</details>
+
 
 ### Сценарии использования:  
 ### UC1: Записаться на мойку 
